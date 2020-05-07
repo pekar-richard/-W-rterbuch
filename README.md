@@ -1,1 +1,1 @@
-# Worterbuch v1.0
+# Worterbuch v2.0
