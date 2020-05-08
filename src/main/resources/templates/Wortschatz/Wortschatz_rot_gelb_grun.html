@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Employee Directory</title>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+
+<h3>Wortschatz</h3>
+<hr>
+
+    <!-- Add a button -->
+   <!--    
+ <a th:href="@{/employees/showFormForAdd}"
+ 	class="btn btn-primary btn-sm mb-3">
+ 	Add Employee
+ </a>  
+  -->
+<style type="text/css">
+	.app .column {	
+	min-width:150px;
+	margin:10px;
+	border:1px solid black;
+	background:gray;
+	}
+	
+	.app .wort_1 {
+	padding:10px;
+	background:red;
+	}
+	
+	.app .wort_2 {
+	padding:10px;
+	background:yellow;
+	}
+	
+	.app .wort_3 {
+	padding:10px;
+	background:green;
+	}
+	
+	.btn{
+	width:70px;
+	color:white;
+	}
+	
+	a {
+	padding:8px!important;
+	text-align:center;
+	}
+	
+	.btn:hover {
+    color: #fff;
+	}
+	
+</style>
+
+<form class="form" action="" method="post">
+    <input type="button" onclick="return formSubmit();" value="Add" class="btn btn-info mb-2 col-4">
+    <input type="text" name="Wort_DE" id="Wort_DE" class="form-control mb-4 col-4" placeholder="deutsches Wort">
+    <input type="text" name="Wort_SK" id="Wort_SK" class="form-control mb-4 col-4" placeholder="slowakisches Wort">
+</form>
+
+ <a th:href="@{/Woerterbuch/List}"
+ 	class="btn btn-primary btn-sm mb-3">
+ 	Alles
+ </a> 
+  <a th:href="@{/Woerterbuch/rot}"
+ 	class="btn btn-danger btn-sm mb-3">
+ 	rot
+ </a>
+   <a th:href="@{/Woerterbuch/gelb}"
+ 	class="btn btn-warning btn-sm mb-3">
+ 	gelb
+ </a>
+   <a th:href="@{/Woerterbuch/grun}"
+ 	class="btn btn-success btn-sm mb-3">
+ 	grün
+ </a>
+ <br>
+
+
+		<div class="app">
+			<div class="header"></div>
+			<div class="body">
+				<div class="row" th:each="tempWorte : ${Worte}">
+						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="column" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
+						<div th:if="${tempWorte.status == i}" th:class="'wort_'+${i}" draggable="true" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
+							<span th:text="${tempWorte.Wort_DE}" /><br>
+							<span th:text="${tempWorte.Wort_SK}" /><br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script>
+
+
+function Get(url,params){
+	
+	var http = new XMLHttpRequest();
+	http.open('POST', url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	        //alert(http.responseText);
+	    }
+	}
+	http.send(params);
+	
+}
+
+function formSubmit(){
+    var Wort_DE = document.getElementById("Wort_DE").value;
+    var Wort_SK = document.getElementById("Wort_SK").value;
+    var dataString = "Wort_DE="+ Wort_DE + "&Wort_SK=" + Wort_SK;
+    Get("/Woerterbuch/add",dataString);
+	return true;
+}
+
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+var el = null;
+function drag(ev) {
+  ev.dataTransfer.setData("wortid", ev.target.id);
+  el=ev.target;
+}
+
+function allowDropEvent(ev) {
+	
+	console.log(el.dataset.id);
+	console.log(ev.target.dataset.id);
+	if(el.dataset.id == ev.target.dataset.id){	
+		allowDrop(ev);	
+	}	
+}
+
+function drop(ev) {
+	  
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("wortid");
+  ev.target.appendChild(document.getElementById(data));
+  Get("/Woerterbuch/save","id="+ el.dataset.id +"+&status="+ ev.target.dataset.status);
+  
+  if(ev.target.dataset.status==1){
+	  document.getElementById("wort-"+el.dataset.id).style.backgroundColor  = "red";
+  }
+  else if (ev.target.dataset.status==2){  
+	  document.getElementById("wort-"+el.dataset.id).style.backgroundColor  = "yellow";
+  }
+  else{
+	  document.getElementById("wort-"+el.dataset.id).style.backgroundColor  = "green";
+  }
+
+}
+</script>
+
+
+
+</body>
+</html>
