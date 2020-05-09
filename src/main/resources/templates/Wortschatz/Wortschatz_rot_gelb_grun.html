@@ -101,10 +101,10 @@
 
 		<div class="app">
 			<div class="header"></div>
-			<div class="body">
+			<div class="body" id="body">
 				<div class="row" th:each="tempWorte : ${Worte}" th:id="'row-'+${tempWorte.id}">
-						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
-						<div th:if="${tempWorte.status == i}" th:class="'wort_'+${i}" draggable="true" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
+						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
+						<div th:if="${tempWorte.status == i}" th:class="'wort_'+${i}" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
 							<span th:text="${tempWorte.Wort_DE}" /><br>
 							<span th:text="${tempWorte.Wort_SK}" /><br>
 						</div>
@@ -116,6 +116,7 @@
 
 <script>
 
+var el = null;
 
 function Get(url,params){
 	
@@ -131,45 +132,109 @@ function Get(url,params){
 	    }
 	}
 	http.send(params);
+}
+
+function getJson(url,params){
 	
+	var http = new XMLHttpRequest();
+	http.open('POST', url, true);
+
+	http.setRequestHeader("Content-Type", "application/json");
+	
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	    	var obj = JSON.parse(http.responseText);
+	        console.log(obj);
+    
+	       var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span>'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
+	       console.log(el);
+	        document.getElementById("body").prepend(el);
+	    }
+
+	}
+	
+	http.send(JSON.stringify(params));	
+}
+
+function createElementFromHTML(htmlString) {
+	  var div = document.createElement('div');
+	  div.innerHTML = htmlString.trim();
+
+	  // Change this to div.childNodes to support multiple top-level nodes
+	  return div.firstChild; 
+	}
+	
+function formSubmit(){
+    var Wort_DE = document.getElementById("Wort_DE").value;
+    var Wort_SK = document.getElementById("Wort_SK").value;
+    var data = {wort_DE:Wort_DE,wort_SK:Wort_SK,status:1};
+    getJson("/Woerterbuch/add",data);
+	return true;
 }
 
 
-var el = null;
+function wortClick(ev){
+	ev.stopPropagation();
+	el=event.target;		  
+}
+
+function columnClick(ev){
+	ev.stopPropagation();
+	 if(el!= null && el.dataset.id == ev.target.dataset.id){	
+		 ev.target.appendChild(el);
+
+		 saveWort(el, ev.target);
+		 statusWort(el, ev.target);
+	 }	
+}
+
+
 function drag(ev) {
   el=ev.target;
 }
 
 function allowDropEvent(ev) {
 	
-	if(el.dataset.id == ev.target.dataset.id){	
+	if(ev.target != el && el.dataset.id == ev.target.dataset.id){	
 		ev.preventDefault();
 	}	
 }
 
-function drop(ev) {
-	  
-  ev.preventDefault();
-  ev.target.appendChild(el);
-  Get("/Woerterbuch/save","id="+ el.dataset.id +"+&status="+ ev.target.dataset.status);
-  
-  if(ev.target.dataset.status==1){
-	  document.getElementById("wort-"+el.dataset.id).style.backgroundColor  = "red";
-  }
-  else if (ev.target.dataset.status==2){  
-	  document.getElementById("wort-"+el.dataset.id).style.backgroundColor  = "yellow";
-  }
-  else{
-	  document.getElementById("wort-"+el.dataset.id).style.backgroundColor  = "green";
-  }
+function statusWort(source, target){
+	
+	  if(target.dataset.status==1){
+		  el.style.backgroundColor  = "red";
+	  }
+	  else if (target.dataset.status==2){  
+		  el.style.backgroundColor  = "yellow";
+	  }
+	  else{
+		  el.style.backgroundColor  = "green";
+	  }
+	
+}
 
+function drop(ev) {
+ ev.preventDefault();
+ saveWort(el, ev.target);
+ 
+}
+
+function saveWort(source, target){
+		  
+	target.appendChild(source);
+	  Get("/Woerterbuch/save","id="+ source.dataset.id +"+&status="+ target.dataset.status);
+	  
+	  statusWort(source, target);
+	
+	
 }
 
  // Delete Wort
 function allowDropDelEvent(ev){
 	 
-	ev.preventDefault();
-	 
+	ev.preventDefault();	 
  }
  
 function dropdelete(ev) {
