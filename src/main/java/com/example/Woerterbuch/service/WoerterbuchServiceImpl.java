@@ -22,8 +22,9 @@ public class WoerterbuchServiceImpl implements WoerterbuchService {
 	@Override
 	public List<Woerterbuch> findAll() {
 
-		return woerterbuchRepository.findAll();
+		return woerterbuchRepository.findAllByOrderByIdDesc();
 	}
+	
 
 	@Override
 	public Woerterbuch findById(int theId) {

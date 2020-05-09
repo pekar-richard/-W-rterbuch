@@ -29,6 +29,7 @@ private WoerterbuchService woerterbuchService;
 	public String listWortschatz(Model theModel) {
 		
 		List<Woerterbuch> theWoerterbuch = woerterbuchService.findAll();
+
 		// add to the spring model
 		theModel.addAttribute("Worte", theWoerterbuch);
 		
@@ -46,7 +47,7 @@ private WoerterbuchService woerterbuchService;
 		return "Wortschatz/Wortschatz_empty";
 
 	}
-	
+	/*
 	@PostMapping("/add")
 	public String MakeAdd(@RequestParam("Wort_DE") String theWort_DE, @RequestParam("Wort_SK") String theWort_SK ) {
 		
@@ -56,6 +57,14 @@ private WoerterbuchService woerterbuchService;
 		theWoerterbuch.setWort_SK(theWort_SK);
 		theWoerterbuch.setStatus(1);
 		woerterbuchService.save(theWoerterbuch);
+		
+		return "redirect:/Woerterbuch/List";
+	}
+	*/
+	@PostMapping("/delete")
+	public String MakeDelete(@RequestParam("id") int theInt ) {
+		
+		woerterbuchService.deleteById(theInt);
 		
 		return "redirect:/Woerterbuch/List";
 	}

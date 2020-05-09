@@ -100,16 +100,16 @@
 	 </div>
 	  <div class="col-1">
 	  
-	  <div class="trash"></div>
+	  <div class="trash" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" ></div>
 	  
 	  </div>
  </div>
  
 
 		<div class="app">
-			<div class="header"></div>
-			<div class="body">
-				<div class="row" th:each="tempWorte : ${Worte}">
+			<div class="header" id="header"></div>
+			<div class="body" id="body">
+				<div class="row" th:each="tempWorte : ${Worte}" th:id="'row-'+${tempWorte.id}">
 						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
 						<div th:if="${tempWorte.status == i}" th:class="'wort_'+${i}" draggable="true" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
 							<span th:text="${tempWorte.Wort_DE}" /><br>
@@ -138,42 +138,64 @@ function Get(url,params){
 	    }
 	}
 	http.send(params);
-	
 }
 
+function getJson(url,params){
+	
+	var http = new XMLHttpRequest();
+	http.open('POST', url, true);
+
+	http.setRequestHeader("Content-Type", "application/json");
+	
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+	    if(http.readyState == 4 && http.status == 200) {
+	    	var obj = JSON.parse(http.responseText);
+	        console.log(obj);
+    
+	       var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span>'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
+	       console.log(el);
+	        document.getElementById("body").prepend(el);
+	    }
+
+	}
+	
+	http.send(JSON.stringify(params));	
+}
+
+function createElementFromHTML(htmlString) {
+	  var div = document.createElement('div');
+	  div.innerHTML = htmlString.trim();
+
+	  // Change this to div.childNodes to support multiple top-level nodes
+	  return div.firstChild; 
+	}
+	
 function formSubmit(){
     var Wort_DE = document.getElementById("Wort_DE").value;
     var Wort_SK = document.getElementById("Wort_SK").value;
-    var dataString = "Wort_DE="+ Wort_DE + "&Wort_SK=" + Wort_SK;
-    Get("/Woerterbuch/add",dataString);
+    var data = {wort_DE:Wort_DE,wort_SK:Wort_SK,status:1};
+    getJson("/Woerterbuch/add",data);
 	return true;
 }
 
 
-function allowDrop(ev) {
-  ev.preventDefault();
-}
-
 var el = null;
 function drag(ev) {
-  ev.dataTransfer.setData("wortid", ev.target.id);
   el=ev.target;
 }
 
 function allowDropEvent(ev) {
 	
-	console.log(el.dataset.id);
-	console.log(ev.target.dataset.id);
 	if(el.dataset.id == ev.target.dataset.id){	
-		allowDrop(ev);	
+		ev.preventDefault();
 	}	
 }
 
 function drop(ev) {
 	  
   ev.preventDefault();
-  var data = ev.dataTransfer.getData("wortid");
-  ev.target.appendChild(document.getElementById(data));
+  ev.target.appendChild(el);
   Get("/Woerterbuch/save","id="+ el.dataset.id +"+&status="+ ev.target.dataset.status);
   
   if(ev.target.dataset.status==1){
@@ -186,6 +208,27 @@ function drop(ev) {
 	  document.getElementById("wort-"+el.dataset.id).style.backgroundColor  = "green";
   }
 
+}
+
+ // Delete Wort
+function allowDropDelEvent(ev){
+	 
+	ev.preventDefault();	 
+ }
+ 
+function dropdelete(ev) {
+	
+	  var x = confirm("Are you sure you want to delete?");
+	  
+	  if (x){
+		  ev.preventDefault();
+		  Get("/Woerterbuch/delete","id="+ el.dataset.id);	
+			//Get the child element node
+		 	 var child =  document.getElementById("row-"+el.dataset.id);
+
+		 	 // Remove the child element from the document
+		  	child.parentNode.removeChild(child);
+	  }
 }
 </script>
 

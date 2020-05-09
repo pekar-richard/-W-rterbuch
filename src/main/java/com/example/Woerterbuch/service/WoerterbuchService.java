@@ -2,6 +2,8 @@ package com.example.Woerterbuch.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+
 import com.example.Woerterbuch.entity.Woerterbuch;
 
 public interface WoerterbuchService {
