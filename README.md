@@ -1,1 +1,0 @@
-# Worterbuch v2.0
