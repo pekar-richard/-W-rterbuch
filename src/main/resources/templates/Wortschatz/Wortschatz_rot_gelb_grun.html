@@ -32,6 +32,8 @@
 	border:1px solid black;
 	background:gray;
 	height:50px;
+	text-align:center;
+	padding:10px;
 	}
 	
 	.app .column {	
@@ -70,6 +72,10 @@
     color: #fff;
 	}
 	
+	.hidden {
+    display: none;
+    }
+	
 </style>
 
 <div class="row">
@@ -93,7 +99,7 @@
 	 </div>
 	  <div class="col-1">
 	  
-	  <div class="trash" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" ></div>
+	  <div class="trash" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete"  >Korb</div>
 	  
 	  </div>
  </div>
@@ -106,7 +112,7 @@
 						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
 						<div th:if="${tempWorte.status == i}" th:class="'wort_'+${i}" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
 							<span th:text="${tempWorte.Wort_DE}" /><br>
-							<span th:text="${tempWorte.Wort_SK}" /><br>
+							<span th:text="${tempWorte.Wort_SK}" th:class="${tempWorte.status==3 || tempWorte.status==2} ? 'hidden' : ''" th:id="'wortSK-'+${tempWorte.id}" /><br>
 						</div>
 					</div>
 				</div>
@@ -117,6 +123,10 @@
 <script>
 
 var el = null;
+
+window.onload = function(){ 
+	 
+	}
 
 function Get(url,params){
 	
@@ -147,9 +157,12 @@ function getJson(url,params){
 	    	var obj = JSON.parse(http.responseText);
 	        console.log(obj);
     
-	       var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span>'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
-	       console.log(el);
-	        document.getElementById("body").prepend(el);
+	       //var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span >'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
+
+	        
+	        var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span th:class="hidden" id="wortSK-'+obj.id+'" >'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
+		    console.log(el);
+		    document.getElementById("body").prepend(el);
 	    }
 
 	}
@@ -203,14 +216,19 @@ function allowDropEvent(ev) {
 
 function statusWort(source, target){
 	
+	 var text_SK =  document.getElementById("wortSK-"+source.dataset.id);
+	
 	  if(target.dataset.status==1){
 		  el.style.backgroundColor  = "red";
+		  text_SK.classList.remove("hidden");
 	  }
 	  else if (target.dataset.status==2){  
 		  el.style.backgroundColor  = "yellow";
+		  text_SK.classList.add("hidden");
 	  }
 	  else{
 		  el.style.backgroundColor  = "green";
+		  text_SK.classList.add("hidden");
 	  }
 	
 }

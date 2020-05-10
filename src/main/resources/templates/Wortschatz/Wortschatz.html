@@ -16,35 +16,27 @@
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
 </head>
 
 <body>
-<div class="container">
-
-<h3>Wortschatz</h3>
-<hr>
-
-    <!-- Add a button -->
-   <!--    
- <a th:href="@{/employees/showFormForAdd}"
- 	class="btn btn-primary btn-sm mb-3">
- 	Add Employee
- </a>  
-  -->
 <style type="text/css">
 
-	.trash {	
-	min-width:150px;
-	border:1px solid black;
-	background:gray;
-	height:50px;
+	.fa{
+	
+	font-size:20px;
+	text-align:right;
+	
 	}
 	
 	.app .column {	
-	min-width:150px;
-	margin:10px;
 	border:1px solid black;
 	background:gray;
+	padding:0px;
+	margin:2px;
 	}
 	
 	.app .wort_1 {
@@ -76,17 +68,49 @@
     color: #fff;
 	}
 	
+	.hidden {
+    display: none;
+    }
+    
+    .row {
+    padding:0px;
+    margin:0px;
+    }
+    
+    .form{
+    	padding:5px 5px 5px 0px;
+   		margin:5px 5px 5px 0px;
+    }
+    
+    .form-control{
+    	padding:5px 5px 5px 0px;
+    	margin:5px 5px 5px 0px;
+    	text-indent: 10px;
+    }
+    
+    .col{
+        padding:5px 5px 5px 0px;
+   		margin:5px 5px 5px 0px; 
+    }   
+    
+    .myDiv {
+  	border-style: solid;
+  	border-color: blue;
+	}
+   
 </style>
+<div class="container">
+<h3>Wortschatz</h3>
+<hr>
 
 <form class="form" action="" method="post">
-    <input type="button" onclick="return formSubmit();" value="Add" class="btn btn-info mb-2 col-4">
-    <input type="text" name="Wort_DE" id="Wort_DE" class="form-control mb-4 col-4" placeholder="deutsches Wort">
-    <input type="text" name="Wort_SK" id="Wort_SK" class="form-control mb-4 col-4" placeholder="slowakisches Wort">
+    <input type="button" onclick="return formSubmit();" value="Add" class="btn btn-info sm-2 ">
+    <input type="text" name="Wort_DE" id="Wort_DE" class="form-control form-control-sm"  placeholder="deutsches Wort">
+    <input type="text" name="Wort_SK" id="Wort_SK" class="form-control form-control-sm"  placeholder="slowakisches Wort">
 </form>
 
-
 <div class="row">
-	<div class="col-4">
+	<div class="col col-3.5 sm-3.5">
 	 <a th:href="@{/Woerterbuch/List}"
 	 	class="btn btn-primary btn-sm mb-3">
 	 	Alles
@@ -103,33 +127,34 @@
 	 	class="btn btn-success btn-sm mb-3">
 	 	grün
 	 </a>
-	 </div>
-	  <div class="col-1">
-	  
-	  <div class="trash" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" ></div>
-	  
-	  </div>
+	   <div class="fa fa-trash" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)" >Korb</div> 
+	 </div> 
+ </div>
  </div>
  
-
+ <div class="container">
 		<div class="app">
 			<div class="header"></div>
 			<div class="body" id="body">
 				<div class="row" th:each="tempWorte : ${Worte}" th:id="'row-'+${tempWorte.id}">
-						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
-						<div th:if="${tempWorte.status == i}" th:class="'wort_'+${i}" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
-							<span th:text="${tempWorte.Wort_DE}" /><br>
-							<span th:text="${tempWorte.Wort_SK}" /><br>
+						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="col col-3.5 sm-3.5 lg-1 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
+						<div th:if="${tempWorte.status == i}" th:class="'wort wort_'+${i}" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
+							<span th:text="${tempWorte.Wort_DE}" th:id="'wortDE-'+${tempWorte.id}"/><br>
+							<span th:text="${tempWorte.Wort_SK}" th:class="${tempWorte.status==3 || tempWorte.status==2} ? 'hidden' : ''" th:id="'wortSK-'+${tempWorte.id}" /><br>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 <script>
+function L(data){console.log(data);}
 
 var el = null;
+
+window.onload = function(){ 
+	 
+	}
 
 function Get(url,params){
 	
@@ -160,9 +185,12 @@ function getJson(url,params){
 	    	var obj = JSON.parse(http.responseText);
 	        console.log(obj);
     
-	       var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span>'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
-	       console.log(el);
-	        document.getElementById("body").prepend(el);
+	       //var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span >'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
+
+	        
+	        var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col col-3.5 sm-3.5 lg-1 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span id="wortDE-'+obj.id+'">'+obj.wort_DE+'</span><br><span th:class="hidden" id="wortSK-'+obj.id+'" >'+obj.wort_SK+'</span><br></div></div><div class="col col-3.5 sm-3.5 lg-1 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col col-3.5 sm-3.5 lg-1 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
+		    console.log(el);
+		    document.getElementById("body").prepend(el);
 	    }
 
 	}
@@ -187,11 +215,33 @@ function formSubmit(){
 }
 
 
-function wortClick(ev){
-	ev.stopPropagation();
-	el=event.target;		  
+function wortClick(ev) {
+	
+	
+		ev.stopPropagation();
+		
+		var prevEl = el;
+		
+		if (prevEl!= null){
+			prevEl.classList.remove("myDiv");	
+		}
+		
+		
+		if(ev.target.classList.contains("wort")) {
+			el=ev.target;
+		} else {
+			el = ev.target.parentElement;
+		}
+		
+		
+		if (el === prevEl) {
+			el = null;			
+		} else {
+			el.classList.add("myDiv");
+		}
 }
 
+	
 function columnClick(ev){
 	ev.stopPropagation();
 	 if(el!= null && el.dataset.id == ev.target.dataset.id){	
@@ -216,14 +266,19 @@ function allowDropEvent(ev) {
 
 function statusWort(source, target){
 	
+	 var text_SK =  document.getElementById("wortSK-"+source.dataset.id);
+	
 	  if(target.dataset.status==1){
 		  el.style.backgroundColor  = "red";
+		  text_SK.classList.remove("hidden");
 	  }
 	  else if (target.dataset.status==2){  
 		  el.style.backgroundColor  = "yellow";
+		  text_SK.classList.add("hidden");
 	  }
 	  else{
 		  el.style.backgroundColor  = "green";
+		  text_SK.classList.add("hidden");
 	  }
 	
 }
@@ -252,7 +307,11 @@ function allowDropDelEvent(ev){
  
 function dropdelete(ev) {
 	
-	  var x = confirm("Are you sure you want to delete?");
+	if(el===null){return;}
+	
+	var wortDE = document.getElementById("wortDE-"+el.dataset.id);
+	
+	  var x = confirm("Wollen Sie das Wort '"+ wortDE.innerHTML +"' richtig löschen?");
 	  
 	  if (x){
 		  ev.preventDefault();
@@ -264,6 +323,8 @@ function dropdelete(ev) {
 		  	child.parentNode.removeChild(child);
 	  }
 }
+
+
 </script>
 
 
