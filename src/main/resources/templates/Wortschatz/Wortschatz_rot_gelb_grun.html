@@ -20,121 +20,39 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
+	<link rel="stylesheet" th:href="@{/css/demo.css}"/>
+	
+		
 </head>
 
 <body>
-<style type="text/css">
 
-	body {
-	  min-height: 75rem;
-	  padding-top: 4.5rem;
-	}
-
-	.fa{
-	
-	font-size:20px;
-	text-align:right;
-	
-	}
-	
-	.app .column {	
-	border:1px solid black;
-	background:gray;
-	padding:0px;
-	margin:2px;
-	}
-	
-	.app .wort_1 {
-	padding:10px;
-	background:red;
-	}
-	
-	.app .wort_2 {
-	padding:10px;
-	background:yellow;
-	}
-	
-	.app .wort_3 {
-	padding:10px;
-	background:green;
-	}
-	
-	.btn{
-	width:70px;
-	color:white;
-	}
-	
-	a {
-	padding:8px!important;
-	text-align:center;
-	}
-	
-	.btn:hover {
-    color: #fff;
-	}
-	
-	.hidden {
-    display: none;
-    }
-    
-    .row {
-    padding:0px;
-    margin:0px;
-    }
-    
-    .form{
-    	padding:5px 5px 5px 0px;
-   		margin:5px 5px 5px 0px;
-    }
-    
-    .form-control{
-    	padding:5px 5px 5px 0px;
-    	margin:5px 5px 5px 0px;
-    	text-indent: 10px;
-    }
-    
-    .col{
-        padding:5px 5px 5px 0px;
-   		margin:5px 5px 5px 0px; 
-    }   
-    
-    .myDiv {
-  	border-style: solid;
-  	border-color: blue;
-	}
-	
-	.container{
-	    padding:5px 5px 5px 5px;
-	}
-   
-</style>
-
+<div class="container">
+ <div class="row">
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#">Wortschatz</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button> 
-      
-      <div class="collapse navbar-collapse" id="navbarCollapse">
- 
-         <form class="form-inline mt-2 mt-md-0">
-         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        
-</form>
-      
+      </button>   
+      <div class="collapse navbar-collapse col col-3.5 sm-3.5 lg-6" id="navbarCollapse">
+         <form class="form-inline col col-3.5 sm-3.5 lg-6"  action="" method="post">
+         <input class="form-control form-search-input col col-3.5 sm-3.5 lg-6" type="text" placeholder="Suchen" aria-label="Search" id="Wort_DE_search_main">
+         <input type="button" onclick="return formSubmitsearch();" value="Suchen" class="btn btn-info sm-2 form-search-input ">
+        </form>   
+        <li></li>
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
            <a th:href="@{/Woerterbuch/List}"class="btn btn-primary btn-sm mb-3 ">Alles</a>
            <a th:href="@{/Woerterbuch/rot}" class="btn btn-danger btn-sm mb-3 ">rot</a>
 		   <a th:href="@{/Woerterbuch/gelb}" class="btn btn-warning btn-sm mb-3 ">gelb</a>
 		   <a th:href="@{/Woerterbuch/grun}" class="btn btn-success btn-sm mb-3 ">grün</a>
-           <a class="btn btn-danger btn-sm mb-3" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)">Löschen</a>
+           <a class="btn btn-danger btn-sm mb-3 loeschenbtn" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)">Löschen</a>
            </li>
-        </ul>      
-      </div>
+        </ul> 
+        </div>     
     </nav>
+ </div>
+ </div>
     
 <main role="main" class="container">
 <div class="container">
@@ -159,7 +77,7 @@
 	 	class="btn btn-success btn-sm mb-3">
 	 	grün
 	 </a>
-	  <a class="btn btn-danger btn-sm mb-3" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)">Löschen</a>
+	  <a class="btn btn-danger btn-sm mb-3 loeschenbtn" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)">Löschen</a>
 	 </div> 
  </div>
  </div>
@@ -180,187 +98,5 @@
 		</div>
 	</div>
 	</main>
-<script>
-function L(data){console.log(data);}
-
-var el = null;
-
-window.onload = function(){ 
-	 
-	}
-
-function Get(url,params){
-	
-	var http = new XMLHttpRequest();
-	http.open('POST', url, true);
-
-	//Send the proper header information along with the request
-	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
-	    if(http.readyState == 4 && http.status == 200) {
-	        //alert(http.responseText);
-	    }
-	}
-	http.send(params);
-}
-
-function getJson(url,params){
-	
-	var http = new XMLHttpRequest();
-	http.open('POST', url, true);
-
-	http.setRequestHeader("Content-Type", "application/json");
-	
-
-	http.onreadystatechange = function() {//Call a function when the state changes.
-	    if(http.readyState == 4 && http.status == 200) {
-	    	var obj = JSON.parse(http.responseText);
-	        console.log(obj);
-    
-	       //var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col-2 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span>'+obj.wort_DE+'</span><br><span >'+obj.wort_SK+'</span><br></div></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col-2 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
-
-	        
-	        var el = createElementFromHTML('<div class="row" id="row-'+obj.id+'"><div class="col col-3.5 sm-3.5 lg-1 column" ondrop="drop(event)" onclick="columnClick(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="1"><div class="wort wort_1" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" id="wort-'+obj.id+'" data-id="'+obj.id+'"><span id="wortDE-'+obj.id+'">'+obj.wort_DE+'</span><br><span th:class="hidden" id="wortSK-'+obj.id+'" >'+obj.wort_SK+'</span><br></div></div><div class="col col-3.5 sm-3.5 lg-1 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="2"></div><div class="col col-3.5 sm-3.5 lg-1 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)" data-id="'+obj.id+'" data-status="3"></div></div>');
-		    console.log(el);
-		    document.getElementById("body").prepend(el);
-	    }
-
-	}
-	
-	http.send(JSON.stringify(params));	
-}
-
-function createElementFromHTML(htmlString) {
-	  var div = document.createElement('div');
-	  div.innerHTML = htmlString.trim();
-
-	  // Change this to div.childNodes to support multiple top-level nodes
-	  return div.firstChild; 
-	}
-	
-function formSubmit(){
-    var Wort_DE = document.getElementById("Wort_DE").value;
-    var Wort_SK = document.getElementById("Wort_SK").value;
-    var data = {wort_DE:Wort_DE,wort_SK:Wort_SK,status:1};
-    getJson("/Woerterbuch/add",data);
-	return true;
-}
-
-
-function wortClick(ev) {
-	
-	
-		ev.stopPropagation();
-		
-		var prevEl = el;
-		
-		if (prevEl!= null){
-			prevEl.classList.remove("myDiv");	
-		}
-		
-		
-		if(ev.target.classList.contains("wort")) {
-			el=ev.target;
-		} else {
-			el = ev.target.parentElement;
-		}
-		
-		
-		if (el === prevEl) {
-			el = null;			
-		} else {
-			el.classList.add("myDiv");
-		}
-}
-
-	
-function columnClick(ev){
-	ev.stopPropagation();
-	 if(el!= null && el.dataset.id == ev.target.dataset.id){	
-		 ev.target.appendChild(el);
-
-		 saveWort(el, ev.target);
-		 statusWort(el, ev.target);
-	 }	
-}
-
-
-function drag(ev) {
-  el=ev.target;
-}
-
-function allowDropEvent(ev) {
-	
-	if(ev.target != el && el.dataset.id == ev.target.dataset.id){	
-		ev.preventDefault();
-	}	
-}
-
-function statusWort(source, target){
-	
-	 var text_SK =  document.getElementById("wortSK-"+source.dataset.id);
-	
-	  if(target.dataset.status==1){
-		  el.style.backgroundColor  = "red";
-		  text_SK.classList.remove("hidden");
-	  }
-	  else if (target.dataset.status==2){  
-		  el.style.backgroundColor  = "yellow";
-		  text_SK.classList.add("hidden");
-	  }
-	  else{
-		  el.style.backgroundColor  = "green";
-		  text_SK.classList.add("hidden");
-	  }
-	
-}
-
-function drop(ev) {
- ev.preventDefault();
- saveWort(el, ev.target);
- 
-}
-
-function saveWort(source, target){
-		  
-	target.appendChild(source);
-	  Get("/Woerterbuch/save","id="+ source.dataset.id +"+&status="+ target.dataset.status);
-	  
-	  statusWort(source, target);
-	
-	
-}
-
- // Delete Wort
-function allowDropDelEvent(ev){
-	 
-	ev.preventDefault();	 
- }
- 
-function dropdelete(ev) {
-	
-	if(el===null){return;}
-	
-	var wortDE = document.getElementById("wortDE-"+el.dataset.id);
-	
-	  var x = confirm("Wollen Sie das Wort '"+ wortDE.innerHTML +"' richtig löschen?");
-	  
-	  if (x){
-		  ev.preventDefault();
-		  Get("/Woerterbuch/delete","id="+ el.dataset.id);	
-			//Get the child element node
-		 	 var child =  document.getElementById("row-"+el.dataset.id);
-
-		 	 // Remove the child element from the document
-		  	child.parentNode.removeChild(child);
-	  }
-}
-
-
-</script>
-
-
-
 </body>
 </html>

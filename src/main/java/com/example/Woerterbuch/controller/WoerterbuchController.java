@@ -74,7 +74,9 @@ private WoerterbuchService woerterbuchService;
 			}
 		}		
 				
+		int Status = 1;
 		theModel.addAttribute("Worte", therotWoerterbuch);
+		theModel.addAttribute("messageStatus", Status);
 		
 		return "Wortschatz/Wortschatz_rot_gelb_grun";
 	}
@@ -93,9 +95,11 @@ private WoerterbuchService woerterbuchService;
 				thegelbWoerterbuch.add(temp);
 				
 			}
-		}		
-				
+		}	
+		
+		int Status = 2;		
 		theModel.addAttribute("Worte", thegelbWoerterbuch);
+		theModel.addAttribute("messageStatus", Status);
 		
 		return "Wortschatz/Wortschatz_rot_gelb_grun";
 	}
@@ -115,8 +119,10 @@ private WoerterbuchService woerterbuchService;
 				
 			}
 		}		
-				
+		
+		int Status = 3;
 		theModel.addAttribute("Worte", thegrunWoerterbuch);
+		theModel.addAttribute("messageStatus",Status);
 		
 		return "Wortschatz/Wortschatz_rot_gelb_grun";
 	}

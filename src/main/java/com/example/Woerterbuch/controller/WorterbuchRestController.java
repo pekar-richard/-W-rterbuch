@@ -36,14 +36,14 @@ private WoerterbuchService woerterbuchService;
 		
 	}
 	
-//	@PostMapping("/search")
-//	public List<Woerterbuch> findWortsByWort_DE(@RequestBody Woerterbuch theWoerterbuch ) {
-//		
-//	    return woerterbuchService.findByWort_DE(theWoerterbuch.getStatus(),theWoerterbuch.getWort_DE());
-//	
-//	    }
-	
 	@PostMapping("/search")
+	public List<Woerterbuch> findWortsByWort_DEandStatus(@RequestBody Woerterbuch theWoerterbuch ) {
+		
+	    return woerterbuchService.ByStatusAndWort_DE(theWoerterbuch.getStatus(),theWoerterbuch.getWort_DE());
+	
+	    }
+	
+	@PostMapping("/searchalle")
 	public List<Woerterbuch> findWortsByWort_DE(@RequestBody Woerterbuch theWoerterbuch ) {
 		
 	    return woerterbuchService.findByWort_DE(theWoerterbuch.getWort_DE());
