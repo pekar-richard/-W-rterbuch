@@ -1,9 +1,8 @@
 
 
+
+
 // variable with information for search formular/ red/gelb/grun
-var messageStatus = "[[${messageStatus}]]";
-
-
 
 function L(data){console.log(data);}
 
@@ -102,10 +101,7 @@ function formSubmitMain(){
 
 function formSubmitsearch(){
     var Wort_DE = document.getElementById("Wort_DE_search_main").value;
-    var data = {
-    	wort_DE:Wort_DE,
-    	status:1
-    };
+    var data = {wort_DE:Wort_DE,status:1};
     
    	//getSearchJson("/Woerterbuch/search",data);
    	
@@ -124,10 +120,8 @@ function formSubmitsearch(){
 function formSubmitsearchRYG(){
 
     var Wort_DE = document.getElementById("Wort_DE_search_ryg").value;
-    var data = {
-    	wort_DE:Wort_DE,
-    	status:messageStatus
-    };
+    var messageStatus = document.getElementById("statusvaluergg").value;
+    var data = {wort_DE:Wort_DE,status:messageStatus};
     
    	getJson("/Woerterbuch/search", data, function(items){
    		document.getElementById("body").innerHTML="";

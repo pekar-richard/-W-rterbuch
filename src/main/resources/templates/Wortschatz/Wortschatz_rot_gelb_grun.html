@@ -21,11 +21,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<link rel="stylesheet" th:href="@{/css/demo.css}"/>
-    <script th:src="@{/js/demo.js}"></script>
-		
+	
+    <script type="text/javascript" th:src="@{/js/demo.js}" th:inline="javascript"></script>
+				
 </head>
 
 <body>
+<input type="hidden" th:value="${messageStatus}" id="statusvaluergg" name="Searchtyp" />
 <div class="d-none d-md-block d-lg-block extraspace"></div>
 <div class="container">
  <div class="row">
@@ -36,8 +38,8 @@
       </button>   
       <div class="collapse navbar-collapse col col-3.5 sm-3.5 lg-6" id="navbarCollapse">
          <form class="form-inline col col-3.5 sm-3.5 lg-6"  action="" method="post">
-         <input class="form-control form-search-input col col-3.5 sm-3.5 lg-6" type="text" placeholder="Suchen" aria-label="Search" id="Wort_DE_search_main">
-         <input type="button" onclick="return formSubmitsearch();" value="Suchen" class="btn btn-info sm-2 form-search-input ">
+         <input class="form-control form-search-input col col-3.5 sm-3.5 lg-6" type="text" placeholder="Suchen" aria-label="Search" id="Wort_DE_search_ryg">
+         <input type="button" onclick="return formSubmitsearchRYG();" value="Suchen" class="btn btn-info sm-2 form-search-input ">
         </form>   
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
