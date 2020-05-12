@@ -1,9 +1,15 @@
 
 	body {
 	  min-height: 75rem;
-	  padding-top: 4.5rem;
+	  padding-top: 3.5rem;
+	   
 	}
+	
+	.extraspace{
 
+	padding-top: 12rem;
+	}
+	
 	.fa{
 	
 	font-size:20px;
