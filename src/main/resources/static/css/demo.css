@@ -40,8 +40,9 @@
 	}
 	
 	.btn{
-	width:70px;
+	width:55px;
 	color:white;
+
 	}
 	
 	.btn-info{
@@ -50,6 +51,7 @@
 	}
 	
 	.loeschenbtn{
+	width:70px;
 	color:white;
 	}
 	
