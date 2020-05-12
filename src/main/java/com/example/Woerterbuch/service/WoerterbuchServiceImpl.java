@@ -1,7 +1,9 @@
 package com.example.Woerterbuch.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,24 @@ public class WoerterbuchServiceImpl implements WoerterbuchService {
 	public void deleteById(int theId) {
 
 		woerterbuchRepository.deleteById(theId);
+	}
+
+	@Override
+	public List<Woerterbuch> ByStatusAndWort_DE(int Status, String Wort_DE) {
+		
+		return woerterbuchRepository.ByStatusAndWort_DE(Status, Wort_DE);
+	}
+
+	@Override
+	public List<Woerterbuch> findByStatus(int status) {
+		
+		return woerterbuchRepository.findByStatus(status);
+	}
+
+	@Override
+	public List<Woerterbuch> findByWort_DE(String wort_de) {
+
+		return woerterbuchRepository.findByWort_DE(wort_de);
 	}
 
 }

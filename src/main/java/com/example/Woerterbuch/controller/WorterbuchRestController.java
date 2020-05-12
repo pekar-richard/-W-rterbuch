@@ -1,5 +1,8 @@
 package com.example.Woerterbuch.controller;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,4 +36,17 @@ private WoerterbuchService woerterbuchService;
 		
 	}
 	
+//	@PostMapping("/search")
+//	public List<Woerterbuch> findWortsByWort_DE(@RequestBody Woerterbuch theWoerterbuch ) {
+//		
+//	    return woerterbuchService.findByWort_DE(theWoerterbuch.getStatus(),theWoerterbuch.getWort_DE());
+//	
+//	    }
+	
+	@PostMapping("/search")
+	public List<Woerterbuch> findWortsByWort_DE(@RequestBody Woerterbuch theWoerterbuch ) {
+		
+	    return woerterbuchService.findByWort_DE(theWoerterbuch.getWort_DE());
+	
+	    }
 }

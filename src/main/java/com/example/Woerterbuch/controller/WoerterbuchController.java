@@ -25,6 +25,7 @@ private WoerterbuchService woerterbuchService;
 
 	// add mapping for "/list"
 	
+	
 	@GetMapping("/List")
 	public String listWortschatz(Model theModel) {
 		
@@ -47,20 +48,7 @@ private WoerterbuchService woerterbuchService;
 		return "Wortschatz/Wortschatz_empty";
 
 	}
-	/*
-	@PostMapping("/add")
-	public String MakeAdd(@RequestParam("Wort_DE") String theWort_DE, @RequestParam("Wort_SK") String theWort_SK ) {
-		
-		// get the employee from the service
-		Woerterbuch theWoerterbuch = new Woerterbuch();
-		theWoerterbuch.setWort_DE(theWort_DE);
-		theWoerterbuch.setWort_SK(theWort_SK);
-		theWoerterbuch.setStatus(1);
-		woerterbuchService.save(theWoerterbuch);
-		
-		return "redirect:/Woerterbuch/List";
-	}
-	*/
+
 	@PostMapping("/delete")
 	public String MakeDelete(@RequestParam("id") int theInt ) {
 		
@@ -133,5 +121,5 @@ private WoerterbuchService woerterbuchService;
 		return "Wortschatz/Wortschatz_rot_gelb_grun";
 	}
 	
-	
+		
 }

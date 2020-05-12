@@ -17,13 +17,13 @@ public class Woerterbuch {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="Wort_DE")
+	@Column(name="wort_de")
 	private String Wort_DE;	
 	
-	@Column(name="Wort_SK")
+	@Column(name="wort_sk")
 	private String Wort_SK;
 	
-	@Column(name="Status")
+	@Column(name="status")
 	private int Status;
 	
 	public Woerterbuch() {
