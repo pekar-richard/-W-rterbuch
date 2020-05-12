@@ -22,6 +22,8 @@
 	background:gray;
 	padding:0px;
 	margin:2px;
+	word-wrap: break-word;
+    width:170px;
 	}
 	
 	.app .wort_1 {
@@ -90,7 +92,8 @@
     
     .col{
         padding:5px 5px 5px 0px;
-   		margin:5px 5px 10px 0px; 
+   		margin:0px 5px 0px 0px; 
+
     }   
     
     .myDiv {
@@ -104,7 +107,6 @@
 	
 	.form-search-input{
 	  
-   		margin:10px 5px 0px 0px;
    		height:40px;
 	}
 	
