@@ -75,7 +75,7 @@ function formSubmitHeader(){
 	var Wort_de = document.getElementById("Wort_DE_header").value;
     var Wort_sk = document.getElementById("Wort_SK_header").value;
     var data = {wort_DE:Wort_de,wort_SK:Wort_sk,status:1};
-    console.log(data);
+   
     getJson("/Woerterbuch/add",data, function(obj){
     	var el = createWortRow(obj);
 	    document.getElementById("body").prepend(el);
@@ -90,7 +90,7 @@ function formSubmitMain(){
    	var Wort_de = document.getElementById("Wort_DE_main").value;
     var Wort_sk = document.getElementById("Wort_SK_main").value;
     var data = {wort_DE:Wort_de,wort_SK:Wort_sk,status:1};
-    console.log(data);
+
     getJson("/Woerterbuch/add",data, function(obj){
     	var el = createWortRow(obj);
 	    document.getElementById("body").prepend(el);
@@ -115,6 +115,20 @@ function formSubmitsearch(){
    	
    	
 	return true;
+}
+
+function validateSendForm(){
+		
+	 formSubmitsearch();	
+	 
+	 return false;
+}
+
+function validateSendFormRYG(){
+	
+	formSubmitsearchRYG();	
+	 
+	 return false;
 }
 
 function formSubmitsearchRYG(){

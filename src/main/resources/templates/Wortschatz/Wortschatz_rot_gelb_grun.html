@@ -37,9 +37,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>   
       <div class="collapse navbar-collapse col col-3.5 sm-3.5 lg-6" id="navbarCollapse">
-         <form class="form-inline col col-3.5 sm-3.5 lg-6"  action="" method="post">
+         <form class="form-inline col col-3.5 sm-3.5 lg-6"  action="" onsubmit="return validateSendFormRYG();" >
          <input class="form-control form-search-input col col-3.5 sm-3.5 lg-6" type="text" placeholder="Suchen" aria-label="Search" id="Wort_DE_search_ryg">
-         <input type="button" onclick="return formSubmitsearchRYG();" value="Suchen" class="btn btn-info sm-2 form-search-input ">
+         <input type="button" onsubmit="return false;" onclick="return formSubmitsearchRYG();" value="Suchen" class="btn btn-info sm-2 form-search-input ">
         </form>   
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">

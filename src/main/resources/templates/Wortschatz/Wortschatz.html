@@ -35,15 +35,15 @@
         <span class="navbar-toggler-icon"></span>
       </button>   
       <div class="collapse navbar-collapse col col-3.5 sm-3.5 lg-6" id="navbarCollapse">
-      <form class="form col col-3.5 sm-3.5 lg-6" action="" method="post">
+      <form class="form col col-3.5 sm-3.5 lg-6" action="">
 		<input type="text" name="Wort_DE" id="Wort_DE_header" class="form-control form-control-sm"  placeholder="deutsches Wort">
 		<input type="text" name="Wort_DE" id="Wort_SK_header" class="form-control form-control-sm"  placeholder="slowakisches Wort">
         <input type="button" onclick="return formSubmitHeader();" value="Hinzufügen" class="btn btn-info sm-2 ">
       </form>  
-         <form class="form-inline col col-3.5 sm-3.5 lg-6"  action="" method="post">
-         <input class="form-control form-search-input col col-3.5 sm-3.5 lg-6" type="text" placeholder="Suchen" aria-label="Search" id="Wort_DE_search_main">
+        <form class="form-inline col col-3.5 sm-3.5 lg-6" action="" onsubmit="return validateSendForm();">
+         <input type="text" class="form-control form-search-input col col-3.5 sm-3.5 lg-6"  placeholder="Suchen" aria-label="Search" id="Wort_DE_search_main">
          <input type="button" onclick="return formSubmitsearch();" value="Suchen" class="btn btn-info sm-2 form-search-input ">
-        </form>   
+       </form>   
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
            <a th:href="@{/Woerterbuch/List}"class="btn btn-primary btn-sm mb-3 ">Alles</a>
