@@ -34,7 +34,7 @@ private WoerterbuchService woerterbuchService;
 		// add to the spring model
 		theModel.addAttribute("Worte", theWoerterbuch);
 		
-		return "Wortschatz/Wortschatz";
+		return "Wortschatz";
 	}
 	
 	@PostMapping("/save")
@@ -45,7 +45,7 @@ private WoerterbuchService woerterbuchService;
 		theWoerterbuch.setStatus(Status);
 		woerterbuchService.save(theWoerterbuch);
 		
-		return "Wortschatz/Wortschatz_empty";
+		return "Wortschatz_empty";
 
 	}
 
@@ -78,7 +78,7 @@ private WoerterbuchService woerterbuchService;
 		theModel.addAttribute("Worte", therotWoerterbuch);
 		theModel.addAttribute("messageStatus", Status);
 		
-		return "Wortschatz/Wortschatz_rot_gelb_grun";
+		return "Wortschatz_rot_gelb_grun";
 	}
 	
 	@GetMapping("/gelb")
@@ -101,7 +101,7 @@ private WoerterbuchService woerterbuchService;
 		theModel.addAttribute("Worte", thegelbWoerterbuch);
 		theModel.addAttribute("messageStatus", Status);
 		
-		return "Wortschatz/Wortschatz_rot_gelb_grun";
+		return "Wortschatz_rot_gelb_grun";
 	}
 	
 	@GetMapping("/grun")
@@ -124,7 +124,7 @@ private WoerterbuchService woerterbuchService;
 		theModel.addAttribute("Worte", thegrunWoerterbuch);
 		theModel.addAttribute("messageStatus",Status);
 		
-		return "Wortschatz/Wortschatz_rot_gelb_grun";
+		return "Wortschatz_rot_gelb_grun";
 	}
 	
 		
