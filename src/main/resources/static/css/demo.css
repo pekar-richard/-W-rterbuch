@@ -56,14 +56,21 @@
 	width:70px;
 	color:white;
 	}
+		
+	.Logoutdiv{
+	margin:0px;
+	padding:0px;
 	
-	.logout{
-	width:90px;
-	position: absolute;
-	right: 80px ;
-	top:12px;
 	}
 	
+	.col-md-3 {
+    width: 80%;
+   }
+	
+	.Logoutbutton{
+	width:90px;
+	margin:2px;
+	}
 	
 	a {
 	padding:8px!important;

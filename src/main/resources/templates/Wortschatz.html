@@ -33,12 +33,12 @@
  <div class="row">
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#">Wortschatz</a>
-      <form	th:action="@{/logout}" method="POST" >	<input type="submit" value="Ausloggen" class="btn btn-primary btn-sm mb-3 logout" /></form>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>   
       <!-- Add  a logout button -->
       <div class="collapse navbar-collapse col col-3.5 sm-3.5 lg-6" id="navbarCollapse">
+       <div class="Logoutdiv"><form	th:action="@{/logout}" method="POST" >	<input type="submit" value="Ausloggen" class="btn btn-primary btn-sm mb-3 Logoutbutton" id="Logout" /></form></div>
       <form class="form col col-3.5 sm-3.5 lg-6" action="">
 		<input type="text" name="Wort_DE" id="Wort_DE_header" class="form-control form-control-sm"  placeholder="deutsches Wort">
 		<input type="text" name="Wort_DE" id="Wort_SK_header" class="form-control form-control-sm"  placeholder="slowakisches Wort">
