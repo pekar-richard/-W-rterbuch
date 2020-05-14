@@ -1,43 +1,62 @@
 package com.example.Woerterbuch.config;
 
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
  
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
  
-    @Autowired
-    PasswordEncoder passwordEncoder;
+	@Autowired
+	private DataSource securityDataSource;
  
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-        .passwordEncoder(passwordEncoder)
-        .withUser("rrt").password(passwordEncoder.encode("123456")).roles("USER")
-        .and()
-        .withUser("admin").password(passwordEncoder.encode("123456")).roles("USER", "ADMIN");
+    	
+    	// use jdbc authentication
+		auth.jdbcAuthentication().dataSource(securityDataSource);
     }
- 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+         web.ignoring()
+         .antMatchers("/css/**")
+         .antMatchers("/js/**");
     }
- 
+    
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-        .antMatchers("/login").permitAll()
-        .antMatchers("/admin/**").hasRole("ADMIN")
-        .antMatchers("/**").hasAnyRole("ADMIN", "USER")
-        .and().formLogin()
-        .and().logout().logoutSuccessUrl("/login").permitAll()
-        .and().csrf().disable();
+    	
+    	/*http.authorizeRequests()	
+    	.antMatchers("/**").permitAll();*/
+		
+		http.csrf().disable().authorizeRequests()	
+		.antMatchers("/login").permitAll()
+		.antMatchers("/**").hasRole("USER")
+        .antMatchers(HttpMethod.POST, "/**").hasRole("USER")
+        .antMatchers(HttpMethod.PUT, "/**").hasRole("USER")
+        .antMatchers(HttpMethod.PATCH, "/**").hasRole("USER")
+        .antMatchers(HttpMethod.DELETE, "/**").hasRole("USER")
+	.and()	
+	.formLogin()
+		.loginPage("/showMyLoginPage")
+		.loginProcessingUrl("/authenticateTheUser")
+		.defaultSuccessUrl("/Woerterbuch/List")
+		.permitAll()
+	.and()	
+	.logout().permitAll()
+	.and()
+	.exceptionHandling().accessDeniedPage("/access-denied");
     }
 }

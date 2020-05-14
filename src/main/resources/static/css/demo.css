@@ -57,6 +57,13 @@
 	color:white;
 	}
 	
+	.logout{
+	width:90px;
+	position: absolute;
+	right: 80px ;
+	top:12px;
+	}
+	
 	
 	a {
 	padding:8px!important;

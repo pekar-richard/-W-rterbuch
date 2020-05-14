@@ -1,7 +1,4 @@
 
-
-
-
 // variable with information for search formular/ red/gelb/grun
 
 function L(data){console.log(data);}

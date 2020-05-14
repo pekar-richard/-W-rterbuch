@@ -20,20 +20,24 @@
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link rel="stylesheet" th:href="@{/css/demo.css}"/>
-	<script th:src="@{/js/demo.js}"></script>
+	<link  href="../static/css/demo.css" th:href="@{/css/demo.css}" rel="stylesheet"  />
 	
+	<script src="../static/js/demo.js" th:src="@{/js/demo.js}" ></script>
+
 </head>
 
 <body>
+
 <div class="d-none d-md-block d-lg-block extraspace"></div>
 <div class="container">
  <div class="row">
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#">Wortschatz</a>
+      <form	th:action="@{/logout}" method="POST" >	<input type="submit" value="Ausloggen" class="btn btn-primary btn-sm mb-3 logout" /></form>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>   
+      <!-- Add  a logout button -->
       <div class="collapse navbar-collapse col col-3.5 sm-3.5 lg-6" id="navbarCollapse">
       <form class="form col col-3.5 sm-3.5 lg-6" action="">
 		<input type="text" name="Wort_DE" id="Wort_DE_header" class="form-control form-control-sm"  placeholder="deutsches Wort">

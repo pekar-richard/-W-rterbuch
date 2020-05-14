@@ -2,8 +2,7 @@ package com.example.Woerterbuch.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
+
 
 import com.example.Woerterbuch.entity.Woerterbuch;
 
