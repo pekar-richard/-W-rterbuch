@@ -2,8 +2,6 @@ package com.example.Woerterbuch.service;
 
 import java.util.List;
 
-
-
 import com.example.Woerterbuch.entity.Woerterbuch;
 
 public interface WoerterbuchService {
@@ -16,10 +14,13 @@ public interface WoerterbuchService {
 	
 	public void deleteById(int theId);
 	
-	public List<Woerterbuch> ByStatusAndWort_DE(int Status, String Wort_DE);
+	public List<Woerterbuch> ByStatusAndWort_DE(int Status, String Wort_DE, String username );
 	
-	public List<Woerterbuch> findByWort_DE(String wort_de);
+	public List<Woerterbuch> findByWort_DE(String wort_de, String username );
 	
 	public List<Woerterbuch> findByStatus(int status);
+	
+	public List<Woerterbuch> findAllByName(String username);
+	
 			
 }

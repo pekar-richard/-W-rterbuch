@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Woerterbuch.dao.WoerterbuchRepository;
+import com.example.Woerterbuch.entity.Users;
 import com.example.Woerterbuch.entity.Woerterbuch;
 
 @Service
@@ -60,9 +61,9 @@ public class WoerterbuchServiceImpl implements WoerterbuchService {
 	}
 
 	@Override
-	public List<Woerterbuch> ByStatusAndWort_DE(int Status, String Wort_DE) {
+	public List<Woerterbuch> ByStatusAndWort_DE(int Status, String Wort_DE, String username) {
 		
-		return woerterbuchRepository.ByStatusAndWort_DE(Status, Wort_DE);
+		return woerterbuchRepository.ByStatusAndWort_DE(Status, Wort_DE, username );
 	}
 
 	@Override
@@ -72,9 +73,16 @@ public class WoerterbuchServiceImpl implements WoerterbuchService {
 	}
 
 	@Override
-	public List<Woerterbuch> findByWort_DE(String wort_de) {
+	public List<Woerterbuch> findByWort_DE(String wort_de, String username) {
 
-		return woerterbuchRepository.findByWort_DE(wort_de);
+		return woerterbuchRepository.findByWort_DE(wort_de, username);
 	}
+
+	@Override
+	public List<Woerterbuch> findAllByName(String username) {
+		
+		return woerterbuchRepository.findAllByName(username);
+	}
+
 
 }

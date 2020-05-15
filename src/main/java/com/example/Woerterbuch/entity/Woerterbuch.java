@@ -1,11 +1,17 @@
 package com.example.Woerterbuch.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="woerterbuch")
@@ -26,16 +32,21 @@ public class Woerterbuch {
 	@Column(name="status")
 	private int Status;
 	
+	@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH} )
+	@JoinColumn(name="username")
+	private Users User;
+	
+
+	public void setUser(Users user) {
+		User = user;
+	}
+
+
 	public Woerterbuch() {
 			
 	}
 
-	public Woerterbuch(int id, String wort_DE, String wort_SK, int status) {
-		this.id = id;
-		Wort_DE = wort_DE;
-		Wort_SK = wort_SK;
-		Status = status;
-	}
 
 	public int getId() {
 		return id;
@@ -69,10 +80,5 @@ public class Woerterbuch {
 		Status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "Woerterbuch [id=" + id + ", Wort_DE=" + Wort_DE + ", Wort_SK=" + Wort_SK + ", Status=" + Status + "]";
-	}
-	
 	
 }
