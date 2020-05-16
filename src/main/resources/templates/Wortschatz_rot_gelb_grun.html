@@ -2,7 +2,7 @@
 <html  lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>Wörterbuch</title>
+	<title th:text="#{wortschatz}"></title>
 	<!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,22 +33,22 @@
 <div class="container">
  <div class="row">
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">Wortschatz</a>
+      <a class="navbar-brand" href="#" th:text="#{wortschatz}"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>   
       <div class="collapse navbar-collapse col col-3.5 sm-3.5 lg-6" id="navbarCollapse">
          <form class="form-inline col col-3.5 sm-3.5 lg-6"  action="" onsubmit="return validateSendFormRYG();" >
-         <input class="form-control form-search-input col col-3.5 sm-3.5 lg-6" type="text" placeholder="Suchen" aria-label="Search" id="Wort_DE_search_ryg">
-         <input type="button" onsubmit="return false;" onclick="return formSubmitsearchRYG();" value="Suchen" class="btn btn-info sm-2 form-search-input ">
+         <input class="form-control form-search-input col col-3.5 sm-3.5 lg-6" type="text" th:placeholder="#{suchen}" aria-label="Search" id="Wort_DE_search_ryg">
+         <input type="button" onsubmit="return false;" onclick="return formSubmitsearchRYG();" th:value="#{suchen}" class="btn btn-info sm-2 form-search-input ">
         </form>   
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-           <a th:href="@{/Woerterbuch/List}"class="btn btn-primary btn-sm mb-3 ">Alles</a>
-           <a th:href="@{/Woerterbuch/rot}" class="btn btn-danger btn-sm mb-3 ">rot</a>
-		   <a th:href="@{/Woerterbuch/gelb}" class="btn btn-warning btn-sm mb-3 ">gelb</a>
-		   <a th:href="@{/Woerterbuch/grun}" class="btn btn-success btn-sm mb-3 ">grün</a>
-           <a class="btn btn-danger btn-sm mb-3 loeschenbtn" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)">Löschen</a>
+           <a th:href="@{/Woerterbuch/List}"class="btn btn-primary btn-sm mb-3 " th:text="#{alles}"></a>
+           <a th:href="@{/Woerterbuch/rot}" class="btn btn-danger btn-sm mb-3 " th:text="#{rot}"></a>
+		   <a th:href="@{/Woerterbuch/gelb}" class="btn btn-warning btn-sm mb-3 " th:text="#{gelb}"></a>
+		   <a th:href="@{/Woerterbuch/grun}" class="btn btn-success btn-sm mb-3 " th:text="#{grun}"></a>
+           <a class="btn btn-danger btn-sm mb-3 loeschenbtn" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)" th:text="#{loeschen}"></a>
            </li>
         </ul> 
         </div>     
@@ -58,28 +58,24 @@
     
 <main role="main" class="container">
 <div class="container">
-<h3>Wortschatz</h3>
+<h3 th:text="#{wortschatz}"></h3>
 <hr>
 
 <div class="row">
 	<div class="col col-3.5 sm-3.5">
-	 <a th:href="@{/Woerterbuch/List}"
+	 <a th:href="@{/Woerterbuch/List}" th:text="#{alles}"
 	 	class="btn btn-primary btn-sm mb-3">
-	 	Alles
 	 </a> 
-	  <a th:href="@{/Woerterbuch/rot}"
+	  <a th:href="@{/Woerterbuch/rot}" th:text="#{rot}"
 	 	class="btn btn-danger btn-sm mb-3">
-	 	rot
 	 </a>
-	   <a th:href="@{/Woerterbuch/gelb}"
+	   <a th:href="@{/Woerterbuch/gelb}" th:text="#{gelb}"
 	 	class="btn btn-warning btn-sm mb-3">
-	 	gelb
 	 </a>
-	   <a th:href="@{/Woerterbuch/grun}"
+	   <a th:href="@{/Woerterbuch/grun}" th:text="#{grun}"
 	 	class="btn btn-success btn-sm mb-3">
-	 	grün
 	 </a>
-	  <a class="btn btn-danger btn-sm mb-3 loeschenbtn" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)">Löschen</a>
+	  <a class="btn btn-danger btn-sm mb-3 loeschenbtn" ondrop="dropdelete(event)" ondragover="allowDropDelEvent(event)"  th:data-id="Delete" onclick="dropdelete(event)" th:text="#{loeschen}"></a>
 	 </div> 
  </div>
  </div>

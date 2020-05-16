@@ -1,6 +1,26 @@
 
 // variable with information for search formular/ red/gelb/grun
 
+function changeLanguage(){
+	
+	var language = document.getElementById("locales").value;
+
+	if(language=="DE"){	
+		window.location.replace('?lang=de');
+	}else{	
+		window.location.replace('?lang=en');
+	}
+}
+
+    $(document).ready(function () {
+        $("#locales").change(function () {
+            var language = $('#locales').val();
+            if (language != '') {
+                window.location.replace('?lang=' + language);
+            }
+        });
+    });
+    
 function L(data){console.log(data);}
 
 var el = null;
