@@ -86,7 +86,7 @@
 				<div class="row" th:each="tempWorte : ${Worte}" th:id="'row-'+${tempWorte.id}">
 						<div th:each="i : ${#numbers.sequence( 1, 3)}" class="col col-3.5 sm-3.5 lg-1 column" onclick="columnClick(event)" ondrop="drop(event)" ondragover="allowDropEvent(event)"  th:data-id="${tempWorte.id}"  th:data-status="${i}">
 						<div th:if="${tempWorte.status == i}" th:class="'wort wort_'+${i}" draggable="true" onclick="wortClick(event)" ondragstart="drag(event)" th:id="'wort-'+${tempWorte.id}" th:data-id="${tempWorte.id}">
-							<span th:text="${tempWorte.Wort_DE}" th:id="'wortDE-'+${tempWorte.id}"/><br>
+							<span th:text="${tempWorte.Wort_DE}" th:id="'wortDE-'+${tempWorte.id}" style="font-weight: 500"/><br>
 							<span th:text="${tempWorte.Wort_SK}" th:class="${tempWorte.status==3 || tempWorte.status==2} ? 'hidden' : ''" th:id="'wortSK-'+${tempWorte.id}" /><br>
 						</div>
 					</div>
